@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper接口文件的包路径名和mapper映射文件中的namespace属性的值是一一对应的，这样就可以确定二者之间的对应关系；-->
+<mapper namespace="com.yuw.dao.UserInfoBeanMapper">
+    <!--
+    使用 resultMap配置节点可以将 实体类的字段名和数据表的属性名之间进行一一映射；
+    type：属性指定那个实体类，需要使用包路径名；
+    表名：在sql语句块中指定；其实也就是通过sql语句操作的表名来决定；
+    column：指定的是表中的字段名；
+    property：指定的是实体类的属性字段名；
+
+    注意：实体类和数据库表之间的默认的映射关系是：实体类的属性名和数据表的字段名，名字一样，可以不区分大小写；
+
+    提醒；
+         实体类映射的并不是数据表，是sql语句中的查询语句中的select之后的字段列表；
+    -->
+    <resultMap id="BaseResultMap" type="com.yuw.bean.UserInfoBean">
+        <id column="userId" jdbcType="INTEGER" property="userid"/>
+        <result column="userName" jdbcType="VARCHAR" property="username"/>
+        <result column="userPsw" jdbcType="VARCHAR" property="userpsw"/>
+        <result column="userAge" jdbcType="VARCHAR" property="userage"/>
+        <result column="userAddress" jdbcType="VARCHAR" property="useraddress"/>
+        <result column="userRegDate" jdbcType="TIMESTAMP" property="userregdate"/>
+        <result column="isDeleted" jdbcType="BIT" property="isdeleted"/>
+    </resultMap>
+
+    <!--定义了一个sql语句段，可以使用include标签通过id进行引用-->
+    <sql id="Base_Column_List">
+    userId, userName, userPsw, userAge, userAddress, userRegDate, isDeleted
+  </sql>
+    <!--
+    include标签标识，引入一段sql代码
+    # {userid,jdbcType=INTEGER}是一个参数占位符，用于接收外部传入一个参数
+    -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <!--<include refid="Base_Column_List" />-->
+        userId, userName, userPsw, userAge, userAddress, userRegDate, isDeleted
+        from userinfo
+        where userId = #{userid,jdbcType=INTEGER}
+    </select>
+
+    <!--
+    动态查询
+    -->
+    <select id="selectUserInfoByParams" parameterType="com.yuw.bean.UserInfoBean" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from userinfo
+        where isDeleted = 0
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from userinfo
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" parameterType="com.yuw.bean.UserInfoBean">
+    insert into userinfo (userId, userName, userPsw, 
+      userAge, userAddress, userRegDate, 
+      isDeleted)
+    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userpsw,jdbcType=VARCHAR}, 
+      #{userage,jdbcType=VARCHAR}, #{useraddress,jdbcType=VARCHAR}, #{userregdate,jdbcType=TIMESTAMP}, 
+      #{isdeleted,jdbcType=BIT})
+  </insert>
+
+    <!--映射关系：
+    parameterType参数指定的实体类的属性名和#{占位符变量名}之间是一一对应；
+    -->
+    <insert id="insertSelective" parameterType="com.yuw.bean.UserInfoBean">
+        insert into userinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                userId,
+            </if>
+            <if test="username != null">
+                userName,
+            </if>
+            <if test="userpsw != null">
+                userPsw,
+            </if>
+            <if test="userage != null">
+                userAge,
+            </if>
+            <if test="useraddress != null">
+                userAddress,
+            </if>
+            <if test="userregdate != null">
+                userRegDate,
+            </if>
+            <if test="isdeleted != null">
+                isDeleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                #{userid,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userpsw != null">
+                #{userpsw,jdbcType=VARCHAR},
+            </if>
+            <if test="userage != null">
+                #{userage,jdbcType=VARCHAR},
+            </if>
+            <if test="useraddress != null">
+                #{useraddress,jdbcType=VARCHAR},
+            </if>
+            <if test="userregdate != null">
+                #{userregdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isdeleted != null">
+                #{isdeleted,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.yuw.bean.UserInfoBean">
+        update userinfo
+        <set>
+            <if test="username != null">
+                userName = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userpsw != null">
+                userPsw = #{userpsw,jdbcType=VARCHAR},
+            </if>
+            <if test="userage != null">
+                userAge = #{userage,jdbcType=VARCHAR},
+            </if>
+            <if test="useraddress != null">
+                userAddress = #{useraddress,jdbcType=VARCHAR},
+            </if>
+            <if test="userregdate != null">
+                userRegDate = #{userregdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isdeleted != null">
+                isDeleted = #{isdeleted,jdbcType=BIT},
+            </if>
+        </set>
+        where userId = #{userid,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.yuw.bean.UserInfoBean">
+    update userinfo
+    set userName = #{username,jdbcType=VARCHAR},
+      userPsw = #{userpsw,jdbcType=VARCHAR},
+      userAge = #{userage,jdbcType=VARCHAR},
+      userAddress = #{useraddress,jdbcType=VARCHAR},
+      userRegDate = #{userregdate,jdbcType=TIMESTAMP},
+      isDeleted = #{isdeleted,jdbcType=BIT}
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+
+</mapper>

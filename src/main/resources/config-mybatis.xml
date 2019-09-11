@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--引入外部的数据库连接参数配置文件-->
+    <properties resource="config-db.properties"></properties>
+    <!--configuration中的配置节点有先后顺序要求-->
+    <settings>
+        <!--配置mybatis的日志输出：输出编译之后的sql语句，便于调试-->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <!--配置mybatis的环境参数-->
+    <environments default="development">
+        <environment id="development">
+            <!--事务管理器对象是JDBC-->
+            <transactionManager type="JDBC"/>
+            <!--数据源的的配置：pooled、dhc2、c3p0、drouid等等-->
+            <dataSource type="POOLED">
+                <!--配置数据源的：驱动类名、连接串、用户名、密码-->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <!--配置mapper映射文件-->
+    <mappers>
+        <mapper resource="com/yuw/mapper/UserInfoBeanMapper.xml"/>
+    </mappers>
+</configuration>
