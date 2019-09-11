@@ -11,15 +11,9 @@ public class UserInfoBean {
 
     private String userage;
 
-    // 用于查询传参  不需要和数据库映射
-    private String userage2;
-
     private String useraddress;
 
     private Date userregdate;
-
-    // 用于查询传参  不需要和数据库映射
-    private Date userregdate2;
 
     private Boolean isdeleted;
 
@@ -77,22 +71,6 @@ public class UserInfoBean {
 
     public void setIsdeleted(Boolean isdeleted) {
         this.isdeleted = isdeleted;
-    }
-
-    public String getUserage2() {
-        return userage2;
-    }
-
-    public void setUserage2(String userage2) {
-        this.userage2 = userage2;
-    }
-
-    public Date getUserregdate2() {
-        return userregdate2;
-    }
-
-    public void setUserregdate2(Date userregdate2) {
-        this.userregdate2 = userregdate2;
     }
 
     @Override

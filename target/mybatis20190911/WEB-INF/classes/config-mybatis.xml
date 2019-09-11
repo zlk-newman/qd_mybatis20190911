@@ -11,11 +11,6 @@
         <!--配置mybatis的日志输出：输出编译之后的sql语句，便于调试-->
         <setting name="logImpl" value="LOG4J"/>
     </settings>
-    <!--配置实体类的别名：默认别名是类名或者是类名的首字母小写的形式-->
-    <typeAliases>
-        <package name="com.yuw.bean"/>
-    </typeAliases>
-
     <!--配置mybatis的环境参数-->
     <environments default="development">
         <environment id="development">

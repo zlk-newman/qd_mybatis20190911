@@ -41,52 +41,18 @@
     </select>
 
     <!--
-    动态查询: like 后面的 %% 串 除了是 bind  还可以使用mysql的字符串拼接函数  concat
+    动态查询
     -->
-    <select id="selectUserInfoByParams" parameterType="userInfoBean" resultMap="BaseResultMap">
-        <!--<bind name="patternUserName" value="'%' + _parameter.getUsername() + '%'" />-->
-        <bind name="patternUserAddress" value="'%' + _parameter.getUseraddress() + '%'"/>
+    <select id="selectUserInfoByParams" parameterType="com.yuw.bean.UserInfoBean" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from userinfo
-
-        <where>
-            isDeleted = 0
-
-            <if test="username != null and username != ''">
-                <!--and userName like #{patternUserName}-->
-                <!--and userName like concat('%', #{username,jdbcType=VARCHAR},'%')-->
-                and userName like "%"#{username,jdbcType=VARCHAR}"%"
-            </if>
-
-            <if test="userage != null">
-                and userAge >= #{userage,jdbcType=VARCHAR}
-            </if>
-
-            <if test="userage2 != null">
-                <![CDATA[
-                and userAge <= #{userage2,jdbcType=VARCHAR}
-                ]]>
-            </if>
-
-            <if test="useraddress != null and useraddress != ''">
-                and userAddress like #{patternUserAddress}
-            </if>
-
-            <if test="userregdate != null">
-                and userRegDate >= #{userregdate,jdbcType=TIMESTAMP}
-            </if>
-
-            <if test="userregdate2 != null">
-                and userRegDate &lt;= #{userregdate2,jdbcType=TIMESTAMP}
-            </if>
-
-        </where>
+        where userId = #{userid,jdbcType=INTEGER}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from userinfo
-    where userId = #{userid,jdbcType=INTEGER}
+    where isDeleted = 0
   </delete>
 
     <insert id="insert" parameterType="com.yuw.bean.UserInfoBean">

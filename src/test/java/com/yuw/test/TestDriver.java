@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +36,17 @@ public class TestDriver {
             userInfoBean.setIsdeleted(false);
             userInfoBean.setUseraddress("山东");
             userInfoBean.setUserage("18");
-            // ?第二个年龄区间的参数怎么处理？
+            // 第二个年龄区间的参数怎么处理
+            userInfoBean.setUserage2("30");
             userInfoBean.setUsername("ad");
-            userInfoBean.setUserregdate(new Date());
-            // ?第二个时间区间的参数怎么处理？
+            // 获取一个时间
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(2019,8,2);
+            userInfoBean.setUserregdate(calendar.getTime());
+            // 第二个时间区间的参数怎么处理
+            // 获取第二个时间
+            calendar.set(2019,8,30);
+            userInfoBean.setUserregdate2(calendar.getTime());
 
             // 调用接口的保存方法
             List<UserInfoBean> lstUserinfoBs = userInfoBeanMapper.selectUserInfoByParams(userInfoBean);
