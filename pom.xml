@@ -20,7 +20,7 @@
         <!--mybatis的版本-->
         <mybatis.version>3.5.2</mybatis.version>
         <!--mysql数据库驱动包：注意8和5不一样-->
-        <mysql-db-driver>8.0.17</mysql-db-driver>
+        <mysql-db-driver>8.0.28</mysql-db-driver>
         <!--log4j的日志-->
         <log4j.version>1.2.17</log4j.version>
         <!--junit-->
